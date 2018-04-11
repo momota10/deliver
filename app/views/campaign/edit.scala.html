@@ -1,0 +1,32 @@
+@(campaignForm: Form[controllers.CampaignController.CampaignForm], genres: Seq[models.Tables.GenresRow])(implicit messages: Messages)
+
+@* テンプレートで利用可能なヘルパーをインポート *@
+@import helper._
+
+@main("キャンペーン作成") {
+
+  @* IDがある場合は更新処理、ない場合は登録処理を呼ぶ *@
+  @form(campaignForm("id").value.map(x => routes.CampaignController.update).getOrElse(routes.CampaignController.create), 'class -> "container", 'role -> "form") {
+    <div class="col-xs-6">
+      <h3>キャンペーン作成・編集</h3>
+    <fieldset>
+      <div class="form-group">
+        @inputText(campaignForm("name"), '_label -> "キャンペーン名")
+      </div>
+      <div class="form-group">
+        @select(campaignForm("genreId"), genres.map(x => x.id.toString -> x.name).toSeq, '_label -> "ジャンル", '_default -> "-- ジャンルを選択してください --")
+      </div>
+      @* IDがある場合（更新の場合）のみhiddenを出力する *@
+      @campaignForm("id").value.map { value =>
+        <input type="hidden" name="id" value="@value" />
+      }
+      <input type="hidden" name="count" value="1" />
+      <div>
+        <input type="submit" value="保存" class="btn btn-success">
+        <a href="@routes.CampaignController.list()" class="btn btn-primary" role="button">キャンペーン一覧に戻る</a>
+      </div>
+    </fieldset>
+  </div>
+  }
+
+}

@@ -1,0 +1,33 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+
+# Mapping to /campaign/list
+GET     /campaign/list                  controllers.CampaignController.list
+# Mapping to /campaign/edit or /campaign/edit?id=<number>
+GET     /campaign/edit                  controllers.CampaignController.edit(id: Option[Long] ?= None)
+# Mapping to /campaign/create
+POST    /campaign/create                controllers.CampaignController.create
+# Mapping to /campaign/update
+POST    /campaign/update                controllers.CampaignController.update
+# Mapping to /campaign/remove/<number>
+POST    /campaign/remove/:id            controllers.CampaignController.remove(id: Long)
+
+
+# JSON API
+GET         /json             controllers.JsonController.index(id: Option[Long] ?= None)
+
+
+# genre crud
+GET     /genre/list                  controllers.GenreController.list
+GET     /genre/edit                  controllers.GenreController.edit(id: Option[Int] ?= None)
+POST    /genre/create                controllers.GenreController.create
+POST    /genre/update                controllers.GenreController.update
+POST    /genre/remove/:id            controllers.GenreController.remove(id: Int)

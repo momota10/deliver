@@ -1,0 +1,27 @@
+@(companyForm: Form[controllers.GenreController.GenreForm], companies: Seq[models.Tables.GenresRow])(implicit messages: Messages)
+
+@* テンプレートで利用可能なヘルパーをインポート *@
+@import helper._
+
+@main("ジャンル作成") {
+
+  @* IDがある場合は更新処理、ない場合は登録処理を呼ぶ *@
+  @form(companyForm("id").value.map(x => routes.GenreController.update).getOrElse(routes.GenreController.create), 'class -> "container", 'role -> "form") {
+    <div class="col-xs-6">
+      <h3>ジャンル名登録・編集</h3>
+    <fieldset>
+      <div class="form-group">
+        @inputText(companyForm("name"), '_label -> "ジャンル名")
+      </div>
+      @* IDがある場合（更新の場合）のみhiddenを出力する *@
+      @companyForm("id").value.map { value =>
+        <input type="hidden" name="id" value="@value" />
+      }
+      <div>
+        <input type="submit" value="保存" class="btn btn-success">
+      </div>
+    </fieldset>
+  </div>
+  }
+
+}

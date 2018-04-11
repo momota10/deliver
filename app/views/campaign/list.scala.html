@@ -1,0 +1,42 @@
+@* このテンプレートの引数 *@
+@(campaigns: Seq[models.Tables.CampaignsRow])
+
+@* main.scala.htmlを呼び出す *@
+@main("キャンペーン一覧") {
+
+
+
+<div class="col-xs-6">
+  <h3>キャンペーン一覧</h3>
+<!-- <div> -->
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>campaign_name</th>
+        <th>JSON</th>
+        <th>count</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+    @* ユーザの一覧をループで出力 *@
+    @campaigns.map { campaign =>
+      <tr>
+        <td>@campaign.id</td>
+        <td><a href="@routes.CampaignController.edit(Some(campaign.id))">@campaign.name</a></td>
+        <td><a target="_blank" href="@routes.JsonController.index(Some(campaign.id))">display</a></td>
+        <td>@campaign.count</td>
+        <td>@helper.form(routes.CampaignController.remove(campaign.id)){
+          <input type="submit" value="削除" class="btn btn-danger btn-xs"/>
+        }
+        </td>
+      </tr>
+    }
+    </tbody>
+  </table>
+  <a href="@routes.CampaignController.edit()" class="btn btn-success" role="button">新規作成</a>
+  <a href="@routes.GenreController.list()" class="btn btn-primary" role="button">ジャンル一覧</a>
+</div>
+
+}
